@@ -5,7 +5,7 @@ def main():
     coordList = CreateCoordList(input)
     affectedPoints = AffectedPoints(coordList)
     result = GetResult(affectedPoints)
-    print(affectedPoints, len(affectedPoints))
+    #print(affectedPoints, len(affectedPoints))
     print(result) 
 
 #Returns a list of all values to analyze (horizontals, verticals and for part 2 only diagonals)
