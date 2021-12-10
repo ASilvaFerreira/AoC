@@ -1,0 +1,26 @@
+
+def main():
+    #TODO: FOR NOW IM THINKING THAT THE BEST WAY TO ORGANIZE THE DATA IS WITH A TUPLES LIST (LIST = (PATTERNS, OUTPUT))
+    #TODO: I MIGHT NEED TO SEPARATE THIS IN MORE WAYS SO THAT I CAN CHECK VALUE FOR VALUE
+    listInput = TreatInput()
+    #TODO: AT FIRST GLANCE PART 1 SEEMS TO ONLY NEED THE OUTPUTS AND IT LOOKS LIKE WE ONLY NEED TO CHECK THE LENGHT OF EACH OUTPUT SO I'LL LOOK INTO THAT APPROACH
+    resultP1 = Part1(listInput)
+
+
+def TreatInput():
+    ...
+
+
+def Part1(listInput):
+    #TODO:
+    #FOR ITEM IN LISTINPUT
+        #FOR OUTPUT IN ITEM
+            #VALUES = OUTPUT.SPLIT(" ")
+            #FOR VALUE IN VALUES:
+                #IF LEN(VALUE) = 2 OR LEN(VALUE) = 3 OR LEN(VALUE) = 4 OR LEN(VALUE) = 7:
+                    #RESULT += 1
+    ...
+
+
+if __name__ == "__main__":
+    main()
