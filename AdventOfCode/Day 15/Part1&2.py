@@ -71,13 +71,14 @@ def Dijkstra(input, startPos, endPos):
     
     #initial spot is visited
     x, y = startPos
-    ##visited[y][x] = True
+    #visited[y][x] = True
     counter = 0
     while not finished:
-        if counter == 10000:
+        if counter % 10000 == 0:
             print("step: ", counter)
             print("--- %s seconds ---" % (time.time() - start_time))
-        distances, origins, distancesStack = Explore(input, currentPos, distances, origins, distancesStack)
+            print("dict size: ", len(distances))
+        distances, origins, distancesStack, visited = Explore(input, currentPos, distances, origins, distancesStack, visited)
         currentPos, visited = Move(distances, distancesStack, currentPos, visited)
 
         if currentPos == endPos:
@@ -86,56 +87,66 @@ def Dijkstra(input, startPos, endPos):
     
     return origins
 
-def Explore(input, currentPos, distances, origins, distancesStack):
+def Explore(input, currentPos, distances, origins, distancesStack, visited):
     x, y = currentPos
     if (x, y) in distances:
         cost = distances[(x, y)]
+        del distances[(x,y)]
     else:
         cost = 0
-
+    
+  
     if x > 0:
-        if (x-1, y) not in distances:
-            distances[(x-1,y)] = input[y][x-1] + cost
-            distancesStack.append(input[y][x-1] + cost)
-            origins[(x-1,y)] = currentPos
+        if visited[y][x-1] == False:
+            if (x-1, y) not in distances:
+                distances[(x-1,y)] = input[y][x-1] + cost
+                distancesStack.append(input[y][x-1] + cost)
+                origins[(x-1,y)] = currentPos
 
-        elif distances[(x-1,y)] > input[y][x-1] + cost:
-            distances[(x-1,y)] = input[y][x-1] + cost
-            distancesStack.append(input[y][x-1] + cost)
+            elif distances[(x-1,y)] > input[y][x-1] + cost:
+                distances[(x-1,y)] = input[y][x-1] + cost
+                distancesStack.append(input[y][x-1] + cost)
+                origins[(x-1,y)] = currentPos
 
     if x < len(input[0]) - 1:
-        if (x+1, y) not in distances:
-            distances[(x+1,y)] = input[y][x+1] + cost
-            distancesStack.append(input[y][x+1] + cost)
-            origins[(x+1,y)] = currentPos
+        if visited[y][x+1] == False:
+            if (x+1, y) not in distances:
+                distances[(x+1,y)] = input[y][x+1] + cost
+                distancesStack.append(input[y][x+1] + cost)
+                origins[(x+1,y)] = currentPos
 
-        elif distances[(x+1,y)] > input[y][x+1] + cost:
-            distances[(x+1,y)] = input[y][x+1] + cost
-            distancesStack.append(input[y][x+1] + cost)
+            elif distances[(x+1,y)] > input[y][x+1] + cost:
+                distances[(x+1,y)] = input[y][x+1] + cost
+                distancesStack.append(input[y][x+1] + cost)
+                origins[(x-1,y)] = currentPos
     
     if y > 0:
-        if (x, y-1) not in distances:
-            distances[(x,y-1)] = input[y-1][x] + cost
-            distancesStack.append(input[y-1][x] + cost)
-            origins[(x,y-1)] = currentPos
+        if visited[y-1][x] == False:
+            if (x, y-1) not in distances:
+                distances[(x,y-1)] = input[y-1][x] + cost
+                distancesStack.append(input[y-1][x] + cost)
+                origins[(x,y-1)] = currentPos
 
-        elif distances[(x,y-1)] > input[y-1][x] + cost:
-            distances[(x,y-1)] = input[y-1][x] + cost
-            distancesStack.append(input[y-1][x] + cost)
+            elif distances[(x,y-1)] > input[y-1][x] + cost:
+                distances[(x,y-1)] = input[y-1][x] + cost
+                distancesStack.append(input[y-1][x] + cost)
+                origins[(x-1,y)] = currentPos
 
     if y < len(input) - 1:
-        if (x, y+1) not in distances:
-            distances[(x,y+1)]  = input[y+1][x] + cost
-            distancesStack.append(input[y+1][x] + cost)
-            origins[(x,y+1)] = currentPos
+        if visited[y+1][x] == False:
+            if (x, y+1) not in distances:
+                distances[(x,y+1)]  = input[y+1][x] + cost
+                distancesStack.append(input[y+1][x] + cost)
+                origins[(x,y+1)] = currentPos
 
-        elif distances[(x,y+1)] > input[y+1][x] + cost:
-            distances[(x,y+1)] = input[y+1][x] + cost
-            distancesStack.append(input[y+1][x] + cost)
+            elif distances[(x,y+1)] > input[y+1][x] + cost:
+                distances[(x,y+1)] = input[y+1][x] + cost
+                distancesStack.append(input[y+1][x] + cost)
+                origins[(x-1,y)] = currentPos
     
     distancesStack.sort()
     distancesStack = list(dict.fromkeys(distancesStack))
-    return distances, origins, distancesStack
+    return distances, origins, distancesStack, visited
 
 
 def Move(distances, distancesStack, currentPos, visited):
