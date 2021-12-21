@@ -1,5 +1,5 @@
 import math
-from os import path
+import time
 
 def main():
     part2 = True
@@ -43,7 +43,7 @@ def TreatInputPart2(input):
 def TreatInput():
     input = []
     numbers = []
-    rawInput = open("testInput.txt")
+    rawInput = open("input")
     for line in rawInput:
         numbers = []
         for number in line.strip():
@@ -52,6 +52,7 @@ def TreatInput():
     return input
 
 def Dijkstra(input, startPos, endPos):
+    start_time = time.time()
     finished = False
 
     distances = {}              #{(0,0) : 0}         pos: cost
@@ -73,12 +74,9 @@ def Dijkstra(input, startPos, endPos):
     ##visited[y][x] = True
     counter = 0
     while not finished:
-        if counter == 50000:
-            print("Analized {} paths".format(counter))
-        elif counter == 100000:
-            print("Analized {} paths".format(counter))
-        elif counter == 150000:
-            print("Analized {} paths".format(counter))
+        if counter == 10000:
+            print("step: ", counter)
+            print("--- %s seconds ---" % (time.time() - start_time))
         distances, origins, distancesStack = Explore(input, currentPos, distances, origins, distancesStack)
         currentPos, visited = Move(distances, distancesStack, currentPos, visited)
 
